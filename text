@@ -1,0 +1,49 @@
+// Select all table rows
+const rows = document.querySelectorAll('tr');
+
+// Select the first row (the header row)
+const headerRow = rows[0];
+
+// Select the last cell in the header row
+const lastHeaderCell = headerRow.querySelector('td:last-of-type');
+
+// Check if there is a last cell in the header row
+if (lastHeaderCell) {
+  // If there is a last cell, create a new cell and add it after the last cell
+  const totalHeaderCell = document.createElement('td');
+  totalHeaderCell.textContent = 'Total';
+  lastHeaderCell.insertAdjacentElement('afterend', totalHeaderCell);
+} else {
+  // If there is no last cell, add a new cell to the end of the row
+  headerRow.insertAdjacentHTML('beforeend', '<td>Total</td>');
+}
+
+// Iterate over all rows
+for (const row of rows) {
+  // Select all cells in the row
+  const cells = row.querySelectorAll('td');
+  // Select all cells in the row except for the first one (which is the row label)
+  const liftingCells = Array.from(cells).slice(1);
+  // Calculate the total of the values in the cells
+  const total = liftingCells.reduce((acc, cell) => acc + parseInt(cell.textContent, 10), 0);
+
+  // Select the last cell in the row
+  const lastCell = row.querySelector('td:last-of-type');
+  if (lastCell) {
+    // If there is a last cell, add a new cell after it with the total value
+    lastCell.insertAdjacentHTML('afterend', `<td>${total}</td>`);
+  } else {
+    // If there is no last cell, add a new cell to the end of the row with the total value
+    row.insertAdjacentHTML('beforeend', `<td>${total}</td>`);
+  }
+}
+
+// Select all cells in the table
+const cellsWithValue0 = document.querySelectorAll('td');
+// Iterate over all cells
+cellsWithValue0.forEach(cell => {
+  // If the cell has a value of 0, remove it
+  if (cell.textContent === '0') {
+    cell.remove();
+  }
+});
